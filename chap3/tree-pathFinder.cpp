@@ -1,6 +1,6 @@
 #include <vector>
 #include <string>
-#include <stack>
+#include <algorithm>
 
 
 class Node {
@@ -19,28 +19,37 @@ class Node {
 
 
 
-std::vector<std::string>* pathFinder(Node* root, std::string targetVal) {
+std::vector<std::string>* _pathFinder(Node* root, std::string targetVal) {
   if (!root) return nullptr;
   
   if (root->val == targetVal) {
     return new std::vector<std::string>{root->val};
   }
   
-  std::vector<std::string>* leftPath = pathFinder(root->left, targetVal);
+  std::vector<std::string>* leftPath = _pathFinder(root->left, targetVal);
   if (leftPath) {
-    leftPath->insert(leftPath->begin(), root->val);
+    leftPath->push_back(root->val);
     return leftPath;
   }
   
-  std::vector<std::string>* rightPath = pathFinder(root->right, targetVal);
+  std::vector<std::string>* rightPath = _pathFinder(root->right, targetVal);
   if (rightPath) {
-    rightPath->insert(rightPath->begin(), root->val);
+    rightPath->push_back(root->val);
     return rightPath;
   }
   
   return nullptr;
 }
 
+std::vector<std::string>* pathFinder(Node* root, std::string targetVal)  {
+  std::vector<std::string>* res = _pathFinder(root, targetVal);
+  if (res == nullptr) {
+    return res;
+  } else {
+    std::reverse(res->begin(), res->end());
+    return res;
+  }
+}
 
 
 void run() {
