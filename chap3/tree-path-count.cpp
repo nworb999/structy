@@ -13,29 +13,14 @@ class Node {
 };
 
 
-int _treeValueCount(Node* root, int targetVal, int count) {
-  if (!root) return count;
-  if (root->val == targetVal) {
-    count += 1;
-  }
-  
-  count = _treeValueCount(root->left, targetVal, count);
-  count = _treeValueCount(root->right, targetVal, count);
-  
-  return count;
-}
-
-
 int treeValueCount(Node* root, int targetVal) {
   if (root == nullptr) {
     return 0;
-  } else {
-    return _treeValueCount(root, targetVal, 0);
   }
+  
+  int match = root->val == targetVal ? 1 : 0;
+  return match + treeValueCount(root->left, targetVal) + treeValueCount(root->right, targetVal);
 }
-
-
-
 
 void run() {
   // this function behaves as `main()` for the 'run' command
